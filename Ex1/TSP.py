@@ -170,41 +170,78 @@ def sa_hc(init_function, move_operator, objective_function, max_evaluations, num
 	Steepest Ascent Hillclimb until either max_evaluations is 
 	reached or we are at a local optimum.
 	'''
-	best = init_function()
-	best_score = objective_function(best)
-	
+	S = init_function()
+	S_score = objective_function(S)
 	num_evaluations = 1
-	
 	while num_evaluations < max_evaluations:
 		# move around the current position
 		move_made = False
-		for next in move_operator(best):
-			tmp1 = next
-			next_score = objective_function(tmp1)
+		for next in move_operator(S):
+			R = next
+			R_score = objective_function(R)
 			
 			for i in range(number_tweaks):
 				num_evaluations += 1
 				if num_evaluations >= max_evaluations:
 					break
-				tmp2 = move_operator(best).__next__()
-				tmp2_score = objective_function(tmp2)
-				if tmp2_score < next_score:
-					tmp1 = tmp2
-					next_score = tmp2_score
-			if next_score < best_score:
-				#print(best_score)
-				best = tmp1
-				best_score = next_score
+				W = move_operator(S).__next__()
+				W_score = objective_function(W)
+				if W_score < R_score:
+					R = W
+					R_score = W_score
+			if R_score < S_score:
+				print(S_score)
+				S = R
+				S_score = R_score
 				move_made = True
 				break # depth first search
 		if not move_made:
 			break # couldn't find better move - must be a local max
 	return (num_evaluations, best_score, best)
 
-def do_sa_hc_evaluations(evaluations, move_operator, init_function, objective_function, coords, number_tweaks):
+def sa_hc_wr(init_function, move_operator, objective_function, max_evaluations, number_tweaks):
+	'''
+	Steepest Ascent Hillclimb with replacement until either max_evaluations is 
+	reached or we are at a local optimum.
+	'''
+	S = init_function()
+	S_score = objective_function(S)
+	best = S 
+	best_score = S_score
+	num_evaluations = 1
+
+	while num_evaluations < max_evaluations:
+		# move around the current position
+		move_made = False
+		for next in move_operator(S):
+			R = next
+			R_score = objective_function(R)
+			
+			for i in range(number_tweaks):
+				num_evaluations += 1
+				if num_evaluations >= max_evaluations:
+					break
+				W = move_operator(S).__next__()
+				W_score = objective_function(W)
+				if W_score < R_score:
+					R = W
+					R_score = W_score
+			S = R
+			S_score = R_score
+			if S_score < best_score:
+				print(best_score)
+				best = S
+				best_score = S_score
+				move_made = True
+				break # depth first search
+		if not move_made:
+			break # couldn't find better move - must be a local max
+	return (num_evaluations, best_score, best)
+
+def evaluate_hc(hc_func, evaluations, move_operator, init_function, objective_function, coords, number_tweaks):
 	max_evaluations = evaluations
 	then = datetime.datetime.now()
-	num_evaluations, best_score, best = sa_hc(init_function, move_operator, objective_function, max_evaluations, number_tweaks)
+	num_evaluations, best_score, best = hc_func(init_function, move_operator, objective_function, max_evaluations, number_tweaks)
 	now = datetime.datetime.now()
 
 	print("computation time ", now - then)
@@ -212,6 +249,7 @@ def do_sa_hc_evaluations(evaluations, move_operator, init_function, objective_fu
 	print("best route:", best)
 	filename = "test"+str(max_evaluations)+".PNG"
 	write_tour_to_img(coords, best, filename, open(filename, "ab"))
+
 
 def main():
 	init_function = lambda: init_random_tour(len(coords))
@@ -221,10 +259,7 @@ def main():
 		coords = read_coords(coord_file)
 	matrix = cartesian_matrix(coords)
 
-	do_sa_hc_evaluations(100000, reversed_sections, init_function, objective_function, coords, 100)
-
-
-
+	evaluate_hc(sa_hc_wr, 100000, reversed_sections, init_function, objective_function, coords, 200)
 
 if __name__ == "__main__":
 	main()
