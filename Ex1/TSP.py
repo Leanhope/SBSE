@@ -250,7 +250,6 @@ def evaluate_hc(hc_func, evaluations, move_operator, init_function, objective_fu
 	write_tour_to_img(coords, best, filename, open(filename, "ab"))
 
 def simulatedAnealing(init_function, move_operator, objective_function, max_evaluations, temprature):
-	print("Simulated Anealing:")
 
 	S = init_function()
 	S_score = objective_function(S)
@@ -263,6 +262,10 @@ def simulatedAnealing(init_function, move_operator, objective_function, max_eval
 		move_made = False
 
 		for next in move_operator(S):
+
+			if num_evaluations >= max_evaluations:
+				break
+
 			R = next
 			R_score = objective_function(R)
 
@@ -299,7 +302,7 @@ def main():
 	matrix = cartesian_matrix(coords)
 
 	# evaluate_hc(sa_hc_wr, 100000, reversed_sections, init_function, objective_function, coords, 200)
-	# evaluate_hc(simulatedAnealing, 100000, reversed_sections, init_function, objective_function, coords, 25.)
+	evaluate_hc(simulatedAnealing, 100000, reversed_sections, init_function, objective_function, coords, 25.)
 
 if __name__ == "__main__":
 	main()
