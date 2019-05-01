@@ -4,6 +4,7 @@ from copy import deepcopy
 from PIL import Image, ImageDraw, ImageFont
 import datetime
 import math
+import numpy as np
 
 def distance(p1, p2):
 	return ((p1[0] - p2[0])**2 + (p1[1] - p2[1])**2) ** 0.5
@@ -293,6 +294,59 @@ def simulatedAnealing(init_function, move_operator, objective_function, max_eval
 
 	return(num_evaluations, best_score, best)
 
+def tabuSearch(init_function, move_operator, objective_function, max_evaluations, number_tweaks):
+	l = 20 # list length
+	n = number_tweaks
+	S = init_function()
+	S_score = objective_function(S)
+	best = S
+	best_score = S_score
+	num_evaluations = 1
+	L = []
+
+	while num_evaluations < max_evaluations:
+		move_made = False
+
+		for next in move_operator(S):
+
+			if len(L) > l:
+				L.pop()
+
+			R = next
+			R_score = objective_function(R)
+
+			for i in range(number_tweaks):
+
+				num_evaluations += 1
+
+				if num_evaluations >= max_evaluations:
+					break
+
+				W = move_operator(S).__next__()
+				W_score = objective_function(W)
+
+				if W not in L and (W_score < R_score or R in L):
+					R = W
+					R_score = W_score
+
+			if R not in L and R_score < S_score:
+				S = R
+				S_score = R_score
+				L.insert(0, R)
+
+			if S_score < best_score:
+				print(best_score)
+				best = S
+				best_score = S_score
+				move_made = True
+				break # depth first search
+
+
+		if not move_made :
+			break # couldn't find better move - must be a local max
+
+	return(num_evaluations, best_score, best)
+
 def main():
 	init_function = lambda: init_random_tour(len(coords))
 	objective_function = lambda tour: tour_length(matrix, tour)
@@ -302,7 +356,8 @@ def main():
 	matrix = cartesian_matrix(coords)
 
 	# evaluate_hc(sa_hc_wr, 100000, reversed_sections, init_function, objective_function, coords, 200)
-	evaluate_hc(simulatedAnealing, 100000, reversed_sections, init_function, objective_function, coords, 25.)
+	# evaluate_hc(simulatedAnealing, 100000, reversed_sections, init_function, objective_function, coords, 25.)
+	evaluate_hc(tabuSearch, 100000, reversed_sections, init_function, objective_function, coords, 200)
 
 if __name__ == "__main__":
 	main()
