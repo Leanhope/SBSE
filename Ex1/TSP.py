@@ -3,13 +3,13 @@ import random
 from copy import deepcopy
 from PIL import Image, ImageDraw, ImageFont
 import datetime
+import math
 
 def distance(p1, p2):
 	return ((p1[0] - p2[0])**2 + (p1[1] - p2[1])**2) ** 0.5
 
 def total_distance(points):
 	return sum([distance(point, points[index + 1]) for index, point in enumerate(points[:-1])])
-
 
 def cartesian_matrix(coordinates):
 	'''
@@ -54,7 +54,7 @@ def all_pairs(size, shuffle = random.shuffle):
 # Tweak 1
 def swapped_cities(tour):
 	"""
-	Generator to create all possible variations where two 
+	Generator to create all possible variations where two
 	cities have been swapped
 	"""
 	ap = all_pairs(len(tour))
@@ -101,7 +101,7 @@ def write_tour_to_img(coords, tour, title, img_file):
 	maxx += padding
 	maxy += padding
 	img = Image.new("RGB",(int(maxx), int(maxy)), color=(255,255,255))
-	
+
 	font=ImageFont.load_default()
 	d=ImageDraw.Draw(img);
 	num_cities = len(tour)
@@ -113,34 +113,34 @@ def write_tour_to_img(coords, tour, title, img_file):
 		x2,y2 = coords[city_j]
 		d.line((int(x1), int(y1), int(x2), int(y2)), fill=(0,0,0))
 		d.text((int(x1)+7, int(y1)-5), str(i), font=font, fill=(32,32,32))
-	
-	
+
+
 	for x,y in coords:
 		x,y = int(x), int(y)
 		d.ellipse((x-5, y-5, x+5, y+5), outline=(0,0,0), fill=(196,196,196))
-	
+
 	d.text((1,1), title, font=font, fill=(0,0,0))
-	
+
 	del d
 	img.save(img_file, "PNG")
 
 def hc(init_function, move_operator, objective_function, max_evaluations):
 	'''
-	Hillclimb until either max_evaluations is 
+	Hillclimb until either max_evaluations is
 	reached or we are at a local optima.
 	'''
 	best = init_function()
 	best_score = objective_function(best)
-	
+
 	num_evaluations = 1
-	
+
 	while num_evaluations < max_evaluations:
 		# move around the current position
 		move_made = False
 		for next in move_operator(best):
 			if num_evaluations >= max_evaluations:
 				break
-			
+
 			next_score = objective_function(next)
 			num_evaluations += 1
 			if next_score < best_score:
@@ -151,7 +151,6 @@ def hc(init_function, move_operator, objective_function, max_evaluations):
 		if not move_made:
 			break # couldn't find better move - must be a local max
 	return (num_evaluations, best_score, best)
-
 
 def do_hc_evaluations(evaluations, move_operator, init_function, objective_function, coords):
 	max_evaluations = evaluations
@@ -167,7 +166,7 @@ def do_hc_evaluations(evaluations, move_operator, init_function, objective_funct
 
 def sa_hc(init_function, move_operator, objective_function, max_evaluations, number_tweaks):
 	'''
-	Steepest Ascent Hillclimb until either max_evaluations is 
+	Steepest Ascent Hillclimb until either max_evaluations is
 	reached or we are at a local optimum.
 	'''
 	S = init_function()
@@ -179,7 +178,7 @@ def sa_hc(init_function, move_operator, objective_function, max_evaluations, num
 		for next in move_operator(S):
 			R = next
 			R_score = objective_function(R)
-			
+
 			for i in range(number_tweaks):
 				num_evaluations += 1
 				if num_evaluations >= max_evaluations:
@@ -201,12 +200,12 @@ def sa_hc(init_function, move_operator, objective_function, max_evaluations, num
 
 def sa_hc_wr(init_function, move_operator, objective_function, max_evaluations, number_tweaks):
 	'''
-	Steepest Ascent Hillclimb with replacement until either max_evaluations is 
+	Steepest Ascent Hillclimb with replacement until either max_evaluations is
 	reached or we are at a local optimum.
 	'''
 	S = init_function()
 	S_score = objective_function(S)
-	best = S 
+	best = S
 	best_score = S_score
 	num_evaluations = 1
 
@@ -216,7 +215,7 @@ def sa_hc_wr(init_function, move_operator, objective_function, max_evaluations, 
 		for next in move_operator(S):
 			R = next
 			R_score = objective_function(R)
-			
+
 			for i in range(number_tweaks):
 				num_evaluations += 1
 				if num_evaluations >= max_evaluations:
@@ -250,6 +249,46 @@ def evaluate_hc(hc_func, evaluations, move_operator, init_function, objective_fu
 	filename = "test"+str(max_evaluations)+".PNG"
 	write_tour_to_img(coords, best, filename, open(filename, "ab"))
 
+def simulatedAnealing(init_function, move_operator, objective_function, max_evaluations, temprature):
+	print("Simulated Anealing:")
+
+	S = init_function()
+	S_score = objective_function(S)
+	t = temprature
+	best = S
+	best_score = S_score
+	num_evaluations = 1
+
+	while num_evaluations < max_evaluations :
+		move_made = False
+
+		for next in move_operator(S):
+			R = next
+			R_score = objective_function(R)
+
+			num_evaluations += 1
+			if R_score < S_score or random.random() < math.exp((S_score - R_score) / t):
+				S = R
+				S_score = R_score
+				move_made = True
+
+			t = t - 0.001
+
+			if S_score < best_score :
+				print(best_score)
+				best = S
+				best_score = S_score
+				move_made = True
+				break # depth first search
+
+			if t <= 0.001 :
+				break # temprature near zero - no further steps canbe done
+
+		if not move_made :
+			break # couldn't find better move - must be a local max
+
+
+	return(num_evaluations, best_score, best)
 
 def main():
 	init_function = lambda: init_random_tour(len(coords))
@@ -259,7 +298,8 @@ def main():
 		coords = read_coords(coord_file)
 	matrix = cartesian_matrix(coords)
 
-	evaluate_hc(sa_hc_wr, 100000, reversed_sections, init_function, objective_function, coords, 200)
+	# evaluate_hc(sa_hc_wr, 100000, reversed_sections, init_function, objective_function, coords, 200)
+	# evaluate_hc(simulatedAnealing, 100000, reversed_sections, init_function, objective_function, coords, 25.)
 
 if __name__ == "__main__":
 	main()
