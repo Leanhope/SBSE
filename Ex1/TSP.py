@@ -86,6 +86,30 @@ def reversed_sections(tour):
 			if copy != tour: # not returning same tour
 				yield copy
 
+def pertubation(H):
+	"""
+	Tweak current homebase n number of times.
+	n is drawn from gaussian distribution be-
+	tween [20, 380]
+	"""
+	i = int(np.random.normal(200, 180))
+
+	while i >= 0:
+		H = next(reversed_sections(H))
+		i = i - 1
+
+	return H
+
+def score_convergent(latest_scores):
+	"""
+	if last score and current score arn't improving
+	by atleast 1, return stop = true
+	"""
+	stop = False
+	if(latest_scores[1] - latest_scores[0] < 2):
+		stop = True
+	return stop
+
 def init_random_tour(tour_length):
 	tour = list(range(tour_length))
 	random.shuffle(list(tour))
@@ -197,7 +221,7 @@ def sa_hc(init_function, move_operator, objective_function, max_evaluations, num
 				break # depth first search
 		if not move_made:
 			break # couldn't find better move - must be a local max
-	return (num_evaluations, best_score, best)
+	return (num_evaluations, S_score, S)
 
 def sa_hc_wr(init_function, move_operator, objective_function, max_evaluations, number_tweaks):
 	'''
@@ -279,9 +303,9 @@ def simulatedAnealing(init_function, move_operator, objective_function, max_eval
 			t = t - 0.001
 
 			if S_score < best_score :
-				print(best_score)
 				best = S
 				best_score = S_score
+				print(best_score)
 				move_made = True
 				break # depth first search
 
@@ -347,6 +371,63 @@ def tabuSearch(init_function, move_operator, objective_function, max_evaluations
 
 	return(num_evaluations, best_score, best)
 
+def iteratedLocalSearch(init_function, move_operator, objective_function, max_evaluations, number_tweaks):
+	S = init_function()
+	S_score = objective_function(S)
+	Best = S
+	best_score = S_score
+	num_evaluations = 1
+	latest_best = [None] * 2
+
+	while num_evaluations < max_evaluations :
+
+		# search in multiple positions - each in time drawn randomly from time array T
+		time = int(np.random.normal(8000, 2000))
+		S_score = objective_function(S)
+
+		# Basic hill climbing with time extension
+		while num_evaluations < max_evaluations:
+			# move around the current position
+			move_made_local = False
+			for next in move_operator(S):
+				if num_evaluations >= max_evaluations:
+					break
+
+				R = next
+				R_score = objective_function(R)
+				num_evaluations += 1
+				time = time - 1
+
+				if R_score < S_score:
+					S = R
+					S_score = R_score
+					move_made_local = True
+					break # depth first search
+
+				if time <= 0 :
+					break  # time is up - search localy somewhere else
+
+			if S_score < best_score :
+				Best = S
+				best_score = S_score
+				latest_best.pop()
+				latest_best.insert(0, best_score)
+				print(best_score)
+
+			if time <= 0 :
+				break  # time is up - search localy somewhere else
+
+			if not move_made_local:
+				break # couldn't find better move - S must be a local max
+
+		if score_convergent(latest_best) :
+			break;
+
+		# switch to new homebase for basic hillclimbing
+		S = pertubation(Best)
+
+	return(num_evaluations, best_score, Best)
+
 def main():
 	init_function = lambda: init_random_tour(len(coords))
 	objective_function = lambda tour: tour_length(matrix, tour)
@@ -355,9 +436,26 @@ def main():
 		coords = read_coords(coord_file)
 	matrix = cartesian_matrix(coords)
 
-	# evaluate_hc(sa_hc_wr, 100000, reversed_sections, init_function, objective_function, coords, 200)
-	# evaluate_hc(simulatedAnealing, 100000, reversed_sections, init_function, objective_function, coords, 25.)
-	evaluate_hc(tabuSearch, 100000, reversed_sections, init_function, objective_function, coords, 200)
+	print("To select an algorithm, enter corresponding number:")
+	print("\t (1) Steepest Ascent Hill Climbing")
+	print("\t (2) Steepest Ascent Hill Climbing with replacement")
+	print("\t (3) Simulated Annealing ")
+	print("\t (4) Tabu Search")
+	print("\t (5) Iterated Local Search")
+
+	algo = int(input("Enter number of chosen algorith: "))
+
+	if algo == 1:
+		evaluate_hc(sa_hc, 100000, reversed_sections, init_function, objective_function, coords, 200)
+	elif algo == 2:
+		evaluate_hc(sa_hc_wr, 100000, reversed_sections, init_function, objective_function, coords, 200)
+	elif algo == 3:
+		evaluate_hc(simulatedAnealing, 100000, reversed_sections, init_function, objective_function, coords, 25.)
+	elif algo == 4:
+		evaluate_hc(tabuSearch, 100000, reversed_sections, init_function, objective_function, coords, 200)
+	elif algo == 5:
+		evaluate_hc(iteratedLocalSearch, 100000, reversed_sections, init_function, objective_function, coords, 200)
+
 
 if __name__ == "__main__":
 	main()
