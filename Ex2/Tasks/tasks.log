@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2019.3.18)  20 MAY 2019 16:03
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2019.3.18)  20 MAY 2019 16:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -485,22 +485,22 @@ Missing character: There is no â in font cmr12!
 Missing character: There is no € in font cmr12!
 Missing character: There is no ¢ in font cmr12!
 
-Underfull \hbox (badness 10000) in paragraph at lines 68--69
+Underfull \hbox (badness 10000) in paragraph at lines 68--70
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 70--71
+Underfull \hbox (badness 10000) in paragraph at lines 71--72
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 76--77
+Underfull \hbox (badness 10000) in paragraph at lines 77--78
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 78--79
+Underfull \hbox (badness 10000) in paragraph at lines 79--80
 
  []
 
@@ -508,33 +508,38 @@ Underfull \hbox (badness 10000) in paragraph at lines 78--79
 AED: lastpage setting LastPage
 [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
-]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 81.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 81.
+] [2]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 82.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 82.
  (./tasks.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 81.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 81.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 82.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 82.
 Package rerunfilecheck Info: File `tasks.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 81.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 82.
  ) 
 Here is how much of TeX's memory you used:
- 8292 strings out of 493029
- 118135 string characters out of 6136234
- 221020 words of memory out of 5000000
+ 8293 strings out of 493029
+ 118141 string characters out of 6136234
+ 222020 words of memory out of 5000000
  11716 multiletter control sequences out of 15000+600000
  9992 words of font info for 39 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 29i,12n,43p,232b,327s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 29i,12n,43p,630b,327s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texli
 ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb>
-Output written on tasks.pdf (1 page, 55108 bytes).
+f-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmsy10.pfb>
+Output written on tasks.pdf (2 pages, 66239 bytes).
 PDF statistics:
- 36 PDF objects out of 1000 (max. 8388607)
- 27 compressed objects within 1 object stream
- 5 named destinations out of 1000 (max. 500000)
+ 44 PDF objects out of 1000 (max. 8388607)
+ 33 compressed objects within 1 object stream
+ 6 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

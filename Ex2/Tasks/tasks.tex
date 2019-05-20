@@ -65,7 +65,8 @@ They describe instances of evolutionary strategies.\\
 \end{enumerate}
 
 \section*{Task 2}
-a) How does Line Recombination work? Explain in detail. \\
+\textbf{a) How does Line Recombination work? Explain in detail.} \\
+In genetic algorithms, children are bred by performing crossover operations using the copies of two parents and possibly mutating the results. The problem is that the children are limited by the hyperspace spanned by the parents. The best solution may be outside this hyperspace. Line recombination offers a method to explore solution outside this hyperspace. Line recombination can generate any point on the line defined by the two parents. First, a positive value $p$ is set that defines, how far the hyperspace can be outreached. Next, two  random values $\alpha$ and $\beta$ between $-p$ and $1+p$ are generated.\\
 
 b)  How can Line Recombination be extended to get Intermediate Line Recombination? \\
 
