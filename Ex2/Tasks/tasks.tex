@@ -1,0 +1,75 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage{fullpage}
+\usepackage[top=2cm, bottom=4.5cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{amsmath,amsthm,amsfonts,amssymb,amscd}
+\usepackage{lastpage}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage{mathrsfs}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\hypersetup{%
+  colorlinks=true,
+  linkcolor=blue,
+  linkbordercolor={0 0 1}
+}
+ 
+\renewcommand\lstlistingname{Algorithm}
+\renewcommand\lstlistlistingname{Algorithms}
+\def\lstlistingautorefname{Alg.}
+
+\lstdefinestyle{Python}{
+    language        = Python,
+    frame           = lines, 
+    basicstyle      = \footnotesize,
+    keywordstyle    = \color{blue},
+    stringstyle     = \color{green},
+    commentstyle    = \color{red}\ttfamily
+}
+
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{0.05in}
+
+% Edit these as appropriate
+\newcommand\course{Search Based Software Engineering}
+\newcommand\hwnumber{2}                  % <-- homework number
+\newcommand\NetIDb{Lucas Huebner, 116232}           
+\newcommand\NetIDa{Hans Lienhop, 114926}           
+
+\pagestyle{fancyplain}
+\headheight 35pt
+\lhead{\NetIDa}
+\lhead{\NetIDa\\\NetIDb}                 % <-- Comment this line out for problem sets (make sure you are person #1)
+\chead{\textbf{\Large Exercise \hwnumber}}
+\rhead{\course \\ \today}
+\lfoot{}
+\cfoot{}
+\rfoot{\small\thepage}
+\headsep 1.5em
+
+\begin{document}
+
+\section*{Task 1}
+a) What are $(1+1)$, $(1 + \lambda)$, $(1,\lambda)$ and $(\mu,\lambda)$\\
+
+b) Explain differences between them. 
+
+
+\section*{Task 2}
+a) How does Line Recombination work? Explain in detail. \\
+
+b)  How can Line Recombination be extended to get Intermediate Line Recombination? \\
+
+c)  Implement Intermediate Line Recombination as a python function.
+
+\section*{Task 3}
+% Rest of the work...
+a)  What is Fitness-Proportionate Selection (FPS) and how does it work? \\
+
+b)  What is Stochastic Universal Sampling (SUS) and how does it work? \\
+
+c)  Implement SUS as a python function.
+\end{document}
