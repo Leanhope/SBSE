@@ -36,7 +36,7 @@
 % Edit these as appropriate
 \newcommand\course{Search Based Software Engineering}
 \newcommand\hwnumber{2}                  % <-- homework number
-\newcommand\NetIDb{Lucas Huebner, 116232}           
+\newcommand\NetIDb{Lucas H\"ubner, 116232}           
 \newcommand\NetIDa{Hans Lienhop, 114926}           
 
 \pagestyle{fancyplain}
@@ -53,10 +53,16 @@
 \begin{document}
 
 \section*{Task 1}
-a) What are $(1+1)$, $(1 + \lambda)$, $(1,\lambda)$ and $(\mu,\lambda)$\\
+\textbf{a) What are $(1+1)$, $(1 + \lambda)$, $(1,\lambda)$ and $(\mu,\lambda)$?}\\
+They describe instances of evolutionary strategies.\\
 
-b) Explain differences between them. 
-
+\textbf{b) Explain differences between them.}
+\begin{enumerate}
+\item[•] $(1+1)$: One parent produces one candidate solution and parent and child compete based on objective fitness for a position in the next generation.
+\item[•] $(1 + \lambda)$: One parent produces $\lambda$ candidate solutions and parent and children compete based on objective fitness for a position in the next generation.
+\item[•] $(1 , \lambda)$: One parent produces $\lambda$ candidate solutions and only the children compete based on objective fitness for a position in the next generation while the parent is disregarded.
+\item[•] $(\mu , \lambda)$: The $\mu$ fittest parents from randomly selected $\lambda$ individuals from the population produce $\frac{\lambda}{\mu}$  candidate solutions each and these children form the new population.
+\end{enumerate}
 
 \section*{Task 2}
 a) How does Line Recombination work? Explain in detail. \\
