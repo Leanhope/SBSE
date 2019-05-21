@@ -21,5 +21,5 @@ for i in range(0, len(x)):
 		x[i] = t
 		v[i] = s
 		
-print("X recombined: ",x)
-print("V: recombined: ",v)
+print("X': ",x)
+print("V': ",v)
