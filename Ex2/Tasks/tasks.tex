@@ -1,0 +1,85 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage{fullpage}
+\usepackage[top=2cm, bottom=4.5cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{amsmath,amsthm,amsfonts,amssymb,amscd}
+\usepackage{lastpage}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage{mathrsfs}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\hypersetup{%
+  colorlinks=true,
+  linkcolor=blue,
+  linkbordercolor={0 0 1}
+}
+ 
+\renewcommand\lstlistingname{Algorithm}
+\renewcommand\lstlistlistingname{Algorithms}
+\def\lstlistingautorefname{Alg.}
+
+\lstdefinestyle{Python}{
+    language        = Python,
+    frame           = lines, 
+    basicstyle      = \footnotesize,
+    keywordstyle    = \color{blue},
+    stringstyle     = \color{green},
+    commentstyle    = \color{red}\ttfamily
+}
+
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{0.05in}
+
+% Edit these as appropriate
+\newcommand\course{Search Based Software Engineering}
+\newcommand\hwnumber{2}                  % <-- homework number
+\newcommand\NetIDb{Lucas H\"ubner, 116232}           
+\newcommand\NetIDa{Hans Lienhop, 114926}           
+
+\pagestyle{fancyplain}
+\headheight 35pt
+\lhead{\NetIDa}
+\lhead{\NetIDa\\\NetIDb}                 % <-- Comment this line out for problem sets (make sure you are person #1)
+\chead{\textbf{\Large Exercise \hwnumber}}
+\rhead{\course \\ \today}
+\lfoot{}
+\cfoot{}
+\rfoot{\small\thepage}
+\headsep 1.5em
+
+\begin{document}
+
+\section*{Task 1}
+\textbf{a) What are $(1+1)$, $(1 + \lambda)$, $(1,\lambda)$ and $(\mu,\lambda)$?}\\
+They describe instances of evolutionary strategies.\\
+
+\textbf{b) Explain differences between them.}
+\begin{enumerate}
+\item[•] $(1+1)$: One parent produces one candidate solution and parent and child compete based on objective fitness for a position in the next generation.
+\item[•] $(1 + \lambda)$: One parent produces $\lambda$ candidate solutions and parent and children compete based on objective fitness for a position in the next generation.
+\item[•] $(1 , \lambda)$: One parent produces $\lambda$ candidate solutions and only the children compete based on objective fitness for a position in the next generation while the parent is disregarded.
+\item[•] $(\mu , \lambda)$: The $\mu$ fittest parents from randomly selected $\lambda$ individuals from the population produce $\frac{\lambda}{\mu}$  candidate solutions each and these children form the new population.
+\end{enumerate}
+
+\section*{Task 2}
+\textbf{a) How does Line Recombination work? Explain in detail.} \\
+In genetic algorithms, children are bred by performing crossover operations using the copies of two parents and possibly mutating the results. The problem is that the children are limited by the hyperspace spanned by the parents. The best solution may be outside this hyperspace. Line recombination offers a method to explore solution outside this hyperspace. Line recombination can generate any point on the line defined by the two parents. First, a positive value $p$ is set that defines, how far the hyperspace can be outreached. Next, two  random values $\alpha$ and $\beta$ between $-p$ and $1+p$ are generated. These values are used to create new values based on a combination of the parents. With two parent vectors $\overrightarrow{x}$ and $\overrightarrow{v}$ containing float values, all of their individual values $x_{i}$ and $v_{i}$ will be replaced with weighted recombinations. The new $x_{i}$ value will be $\alpha x_{i} + (1 - \alpha)v_{i}$ and the new $v_{i}$ will be $\beta v_{i} + (1 - \beta)x_{i}$. This results in two new points which are either on the line spanned by the to original points or exceeding it by at most $p$. This way, values outside of the given hyperspace can be reached.  \\
+
+\textbf{b)  How can Line Recombination be extended to get Intermediate Line Recombination?} \\
+It can be extended by choosing new $\alpha$ and $\beta$ values for each new set of $x_{i}$ and $v_{i}$. This way, children are not limited to the line vector, but can take values from the entire hypercube.\\
+
+\textbf{c)  Implement Intermediate Line Recombination as a python function.}\\
+Check tasks/linearRecomb.py
+
+\section*{Task 3}
+\textbf{a)  What is Fitness-Proportionate Selection (FPS) and how does it work?} \\
+Fitness Proportionate Selection is a way of parent selection in which every individual can become a parent with a probability which is proportional to its fitness. So an individual with a higher fitness has a higher probability of being picked. To achieve that, two vectors are necessary. One contains the individuals, the other their respective fitness values in the same order. The sum $l$ of all fitness values is calculated. Thus, an individual is represented by a range. Then, a random number $n$ between 0 and $l$ is generated. The range to which the value $n$ corresponds is found and the respecting individual returned to act as parent.\\
+
+\textbf{b)  What is Stochastic Universal Sampling (SUS) and how does it work?} \\
+Stochastic Universal Sampling uses the same initialization as FPS but ensures that fitter-than-average individuals are chosen at least once. After initializing the vectors and calculating the sum $s$ from $n$ individuals, a random number between $0$ and $\frac{s}{n}$ is generated, which serves as the first parent. This position is incremented by $\frac{s}{n}$ until $n$ individuals are selected.\\
+
+c)  Implement SUS as a python function.
+\end{document}
