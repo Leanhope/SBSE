@@ -7,7 +7,9 @@ def main():
 
 	x = [_ for _ in range(n)]
 	v = [round(random.random()*100, 2) for _ in range(n)]
-
+	print("X: ", x)
+	print("V: ", v)
+	
 	for i in range(1, len(v)):
 		v[i] = round(v[i - 1] + v[i], 2)
 
@@ -16,8 +18,6 @@ def main():
 	index = 0
 	counter = 0
 	s = v[len(v)-1]
-	print("X: ", x)
-	print("V: ", v)
 	print("Sum: ", s)
 	offset = round((random.random() * 100) % (s/len(x)), 2)
 	print("Offset: ", offset)
