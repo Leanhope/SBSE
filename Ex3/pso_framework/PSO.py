@@ -3,6 +3,7 @@ from PyQt5.QtGui import QColor
 from PyQt5.QtCore import QPoint
 
 
+
 class PSO:
     def __init__(self, swarm_size, dim, limits, params=[0.75, .4, .5, .6, 0.05]):
         """
@@ -20,6 +21,9 @@ class PSO:
         self.dim = dim
         self.limits = limits
         self.population = []
+        for i in range(swarm_size):
+            self.population.append(Particle(dim, limits))
+       
         # TODO: implement further problem initialization
 
     def update(self, mouse_pos):
@@ -30,7 +34,7 @@ class PSO:
         :param mouse_pos:
         """
         # TODO: implement one iteration of the PSO algorithm
-        pass
+        #pass
 
     def draw(self, painter):
         color = QColor(0, 0, 0)
