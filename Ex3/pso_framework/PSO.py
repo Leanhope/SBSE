@@ -43,19 +43,12 @@ class PSO:
         for p in self.population:
             fitness = self.assess_fitness(p, mouse_pos)
             print(fitness)
-            if fitness < self.best_particle_fitness:
-                self.best_particle_fitness = fitness
-                self.best_particle = p
-            if fitness < p.best_fitness:
-                p.best_fitness = fitness
-                p.best = p
+            if fitness < self.assess_fitness(self.best_particle, mouse_pos):self.best_particle = p
+            if fitness < self.assess_fitness(p.best, mouse_pos):p.best = p
             for i in range(int(self.swarm_size/20)):
                 rand_p = self.population[random.randint(0, self.swarm_size - 1)]
                 fitness_rand = self.assess_fitness(rand_p, mouse_pos)
-                if fitness_rand < p.best_info_fitness:
-                    p.best_info_fitness = fitness_rand
-                    p.best_info = rand_p
-
+                if fitness_rand < self.assess_fitness(p.best_info, mouse_pos):p.best_info = rand_p
             for i in range(self.dim):
                 b = random.uniform(0.0, self.beta)
                 c = random.uniform(0.0, self.gamma)
