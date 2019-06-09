@@ -59,9 +59,9 @@ if __name__ == "__main__":
 
     min_value = 0
     max_value = 100
-    population_size = 1000
+    population_size = 100
     p = 1/size
-    c = 0.05
+    c = 0.01
     b = 0.1
 
     vector = randomWalkMutation(population_size, min_value, max_value, p, c, b)
