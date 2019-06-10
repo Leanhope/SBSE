@@ -16,14 +16,14 @@
   linkcolor=blue,
   linkbordercolor={0 0 1}
 }
- 
+
 \renewcommand\lstlistingname{Algorithm}
 \renewcommand\lstlistlistingname{Algorithms}
 \def\lstlistingautorefname{Alg.}
 
 \lstdefinestyle{Python}{
     language        = Python,
-    frame           = lines, 
+    frame           = lines,
     basicstyle      = \footnotesize,
     keywordstyle    = \color{blue},
     stringstyle     = \color{green},
@@ -36,8 +36,8 @@
 % Edit these as appropriate
 \newcommand\course{Search Based Software Engineering}
 \newcommand\hwnumber{3}                  % <-- homework number
-\newcommand\NetIDb{Lucas H\"ubner, 116232}           
-\newcommand\NetIDa{Hans Lienhop, 114926}           
+\newcommand\NetIDb{Lucas H\"ubner, 116232}
+\newcommand\NetIDa{Hans Lienhop, 114926}
 
 \pagestyle{fancyplain}
 \headheight 35pt
@@ -57,10 +57,10 @@
 
 In biology, the genotype describes the entirety of genes of an organism. The phenotype describes the appearance of an organism, influenced by it's genotype and environmental influences. The phenotype only offers limited knowledge about the genotype. As an example, when crossing red and white flowers the descendants also get red blossoms, so they have the phenotype red. But their genotype also contains information about white blossoms.\\
 
-When transferring this knowledge to genetic algorithms, the population of candidate solutions describes a population of different phenotypes. The set of properties, shared by all individuals, is called genotype and can be altered and mutated.\\
+When transferring this knowledge to genetic algorithms, a population of candidate solutions assessed by the fitness function is described as a phenotype. Its set of properties, shared between all candidate solutions and used for defining a solution, is called a genotype and can be altered and mutated. A more concrete example would be the traveling salesman problem from exercise sheet Nr.1. In this case the genotype would be lists of all cities. The sum of distances between neighboring entries within these lists is used as to asses their fitness, enabling a real world representation of each of them. This would be  phenotype.\\
 
 \textbf{b)  Explain the Hamming Cliff in your own words. How can it be prevented? Give an example.}
 
-A Hamming cliff is formed when the bit representations of two adjacent values are far apart. This is problematic because one expects a small change in variables to result in a small change of fitess and vice versa. Consider the binary representation of the numbers 7 and 8. $7_{10} = 0111_{2}$ and $8_{10} = 1000_{2}$. These adjacent values differ in every bit resulting in a Hamming distance of 4. This can be avoided by not using a bit representation but gray coding. Here, adjacent values always have a Hamming distance of 1. 7 and 8 are 0100 and 1100 respectively. 
+A Hamming cliff is formed when the bit representations of two adjacent values are far apart. This is problematic because one expects a small change in variables to result in a small change of fitess and vice versa. Consider the binary representation of the numbers 7 and 8. $7_{10} = 0111_{2}$ and $8_{10} = 1000_{2}$. These adjacent values differ in every bit resulting in a Hamming distance of 4. This can be avoided by not using a bit representation but gray coding. Here, adjacent values always have a Hamming distance of 1. 7 and 8 are 0100 and 1100 respectively.
 
 \end{document}

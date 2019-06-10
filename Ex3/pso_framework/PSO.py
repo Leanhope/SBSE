@@ -26,7 +26,7 @@ class PSO:
         self.swarm_size = swarm_size
         for i in range(self.swarm_size):
             self.population.append(Particle(dim, limits))
-       
+
         self.best_particle = self.population[0]
         self.mouse_pos_old = [0.0, 0.0]
         # TODO: implement further problem initialization
@@ -41,22 +41,31 @@ class PSO:
 
         for p in self.population:
             fitness = self.assess_fitness(p, mouse_pos)
-            if fitness < self.assess_fitness(self.best_particle, mouse_pos):self.best_particle = p
-            if fitness < self.assess_fitness(p.best, mouse_pos):p.best = p
+            if fitness < self.assess_fitness(self.best_particle, mouse_pos):
+                self.best_particle = p
+            if fitness < self.assess_fitness(p.best, mouse_pos):
+                p.best = p
+
             for i in range(int(self.swarm_size/20)):
                 rand_p = self.population[random.randint(0, self.swarm_size - 1)]
                 fitness_rand = self.assess_fitness(rand_p, mouse_pos)
-                if fitness_rand < self.assess_fitness(p.best_info, mouse_pos):p.best_info = rand_p
+                if fitness_rand < self.assess_fitness(p.best_info, mouse_pos):
+                    p.best_info = rand_p
+
             for i in range(self.dim):
                 b = random.uniform(0.0, self.beta)
                 c = random.uniform(0.0, self.gamma)
                 d = random.uniform(0.0, self.delta)
-                p.vel[i] = self.alpha * p.vel[i] + b * (p.best.pos[i] - p.pos[i]) + c * (p.best_info.pos[i] - p.pos[i]) + d * (self.best_particle.pos[i] - p.pos[i])
-              
+                termA = self.alpha * p.vel[i]
+                termB = b * (mouse_pos[i] - p.pos[i])
+                termC = c * (p.best_info.pos[i] - p.pos[i])
+                termD = d * (self.best_particle.pos[i] - p.pos[i])
+                p.vel[i] =  (termA + termB + termC + termD)
+
         for p in self.population:
             for i in range(self.dim):
                 p.pos[i] += self.epsilon * p.vel[i]
-        
+
         self.mouse_pos_old = mouse_pos
 
 
@@ -67,6 +76,6 @@ class PSO:
         for item in self.population:
             position = QPoint(item.pos[0], item.pos[1])
             painter.drawEllipse(position, 4, 4)
-    
+
     def assess_fitness(self, Particle, pos):
         return hypot(Particle.pos[0] - pos[0], Particle.pos[1] - pos[1])
