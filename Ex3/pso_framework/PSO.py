@@ -42,7 +42,7 @@ class PSO:
 
         for p in self.population:
             fitness = self.assess_fitness(p, mouse_pos)
-            print(fitness)
+            #print(fitness)
             if fitness < self.assess_fitness(self.best_particle, mouse_pos):self.best_particle = p
             if fitness < self.assess_fitness(p.best, mouse_pos):p.best = p
             for i in range(int(self.swarm_size/20)):
