@@ -28,8 +28,7 @@ class PSO:
             self.population.append(Particle(dim, limits))
        
         self.best_particle = self.population[0]
-        self.best_particle_fitness = 800
-        #self.mouse_pos_old = [0.0, 0.0]
+        self.mouse_pos_old = [0.0, 0.0]
         # TODO: implement further problem initialization
 
     def update(self, mouse_pos):
@@ -42,7 +41,6 @@ class PSO:
 
         for p in self.population:
             fitness = self.assess_fitness(p, mouse_pos)
-            #print(fitness)
             if fitness < self.assess_fitness(self.best_particle, mouse_pos):self.best_particle = p
             if fitness < self.assess_fitness(p.best, mouse_pos):p.best = p
             for i in range(int(self.swarm_size/20)):
@@ -58,6 +56,8 @@ class PSO:
         for p in self.population:
             for i in range(self.dim):
                 p.pos[i] += self.epsilon * p.vel[i]
+        
+        self.mouse_pos_old = mouse_pos
 
 
     def draw(self, painter):
@@ -69,4 +69,4 @@ class PSO:
             painter.drawEllipse(position, 4, 4)
     
     def assess_fitness(self, Particle, pos):
-        return hypot(Particle.pos[0] - pos[0], Particle.pos[0] - pos[0])
+        return hypot(Particle.pos[0] - pos[0], Particle.pos[1] - pos[1])
